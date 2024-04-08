@@ -40,7 +40,7 @@ public class GoogleTest {
 //        webDriver.get("https://www.google.com/");
     }
 
-    @Test(dataProvider = "filterData")
+    @Test(dataProvider = "filterData", testName = "smoke")
     public void tvFilterTest(WebDriver webDriver, String filterName) {
         webDriver.manage().window().maximize();
         webDriver.get(MAIN_URL);
@@ -56,7 +56,7 @@ public class GoogleTest {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(FILTER_AWAITING_LOADER_LOCATOR)));
         List<WebElement> filterResultList = webDriver.findElements(By.xpath(FILTER_RESULT_LOCATOR));
         Assert.assertFalse(filterResultList.stream()
-                .noneMatch(l -> l.getText().contains(filterName)));
+                .noneMatch(l -> l.getText().contains(filterName)), "The page displays TVs from a manufacturer other than the applied filter.");
 //        webDriver.quit();
     }
 

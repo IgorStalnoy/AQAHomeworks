@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="smoke suite" verbose="1" parallel="methods" thread-count="2" data-provider-thread-count="2" >
+<!--    <listeners>-->
+<!--        <listener class-name="com.aqa.homeworks.utils.TestListener"/>-->
+<!--    </listeners>-->
+    <test name="smoke test">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.aqa.homeworks"/>
+        </packages>
+    </test>
+</suite>
