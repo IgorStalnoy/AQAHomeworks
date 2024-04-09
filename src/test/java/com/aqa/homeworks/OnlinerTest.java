@@ -5,11 +5,13 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -17,10 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class GoogleTest {
-    private List<WebDriver> webDriver = new ArrayList<>();
-    //    private WebDriver webDriver = new ChromeDriver();
+public class OnlinerTest {
+    private final List<WebDriver> webDriver = new ArrayList<>();
     public final static String CHROME_DRIVER_ROOT = "src/test/resources/chromedriver.exe";
+    public final static String FIREFOX_DRIVER_ROOT = "src/test/resources/geckodriver.exe";
+    public final static String EDGE_DRIVER_ROOT = "src/test/resources/msedgedriver.exe";
     public final static String MAIN_URL = "https://www.onliner.by/";
     public final static String TVS_SECTION_LOCATOR = "//a[@href=\"https://catalog.onliner.by/tv\"]/span[@class=\"project-navigation__text\"]";
     public final static String FILTER_AWAITING_LOADER_LOCATOR = "//div[@class=\"catalog-interaction__state catalog-int" +
@@ -33,14 +36,14 @@ public class GoogleTest {
             + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
     public final static String OPEN_ALL_BRAND_FILTERS_LOCATOR = "//div[@class=\"catalog-form__row catalog-form__row_condensed-other\"][7]//div[@class=\"input-style__real\"]";
 
-    @BeforeMethod
-    public void driverInitialize() {
-//        System.setProperty("webdriver.chrome.driver", "E:\\Java Projects\\AQAHomeworks\\src\\test\\resources\\chromedriver.exe");
-//        webDriver = new ChromeDriver();
-//        webDriver.get("https://www.google.com/");
+    @BeforeClass
+    public void driverInit() {
+        System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_ROOT);
+        System.setProperty("webdriver.gecko.driver", FIREFOX_DRIVER_ROOT);
+        System.setProperty("webdriver.edge.driver", EDGE_DRIVER_ROOT);
     }
 
-    @Test(dataProvider = "filterData", testName = "smoke")
+    @Test(dataProvider = "filterData", groups = "smoke")
     public void tvFilterTest(WebDriver webDriver, String filterName) {
         webDriver.manage().window().maximize();
         webDriver.get(MAIN_URL);
@@ -57,19 +60,29 @@ public class GoogleTest {
         List<WebElement> filterResultList = webDriver.findElements(By.xpath(FILTER_RESULT_LOCATOR));
         Assert.assertFalse(filterResultList.stream()
                 .noneMatch(l -> l.getText().contains(filterName)), "The page displays TVs from a manufacturer other than the applied filter.");
-//        webDriver.quit();
     }
 
-    @DataProvider(name = "filterData")
+    @DataProvider(name = "filterData", parallel = true)
     public Object[][] filterData() {
-        System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_ROOT);
         IntStream.range(0, 4)
                 .forEach(i -> webDriver.add(new ChromeDriver()));
+        IntStream.range(4, 8)
+                .forEach(i -> webDriver.add(new FirefoxDriver()));
+        IntStream.range(8, 12)
+                .forEach(i -> webDriver.add(new EdgeDriver()));
         return new Object[][]{
-                {webDriver.get(0), "Philips"},
+                {webDriver.get(0), "Renova"},
                 {webDriver.get(1), "Sony"},
                 {webDriver.get(2), "BBK"},
-                {webDriver.get(3), "LG"}
+                {webDriver.get(3), "LG"},
+                {webDriver.get(4), "Sony"},
+                {webDriver.get(5), "BBK"},
+                {webDriver.get(6), "LG"},
+                {webDriver.get(7), "Philips"},
+                {webDriver.get(8), "BBK"},
+                {webDriver.get(9), "LG"},
+                {webDriver.get(10), "Sony"},
+                {webDriver.get(11), "BBK"}
         };
     }
 
@@ -81,4 +94,5 @@ public class GoogleTest {
             }
         });
     }
+
 }
