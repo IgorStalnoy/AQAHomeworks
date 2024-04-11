@@ -8,33 +8,24 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class SumCalcTest {
-    private final Calculator calculator = new Calculator();
-
+public class SumCalcTest extends CalculatorTest {
+    @BeforeMethod
+    public void beforeTestng(ITestResult itestResult) {
+        super.beforeTest(itestResult);
+    }
     @Test(groups = "smoke", dataProvider = "randomLongData", dataProviderClass = DataSets.class)
     public void sumLongTest(long firstNumber, long secondNumber) {
-        Assert.assertEquals(calculator.sum(firstNumber, secondNumber), firstNumber + secondNumber, "Actual result is not equals expected result");
+        Assert.assertEquals(getCalculator().sum(firstNumber, secondNumber), firstNumber + secondNumber, "Actual result is not equals expected result");
     }
 
     @Test(groups = "smoke", dataProvider = "randomDoubleData", dataProviderClass = DataSets.class)
     public void sumDoubleTest(double firstNumber, double secondNumber) {
-        Assert.assertEquals(calculator.sum(firstNumber, secondNumber), firstNumber + secondNumber, "Actual result is not equals expected result");
+        Assert.assertEquals(getCalculator().sum(firstNumber, secondNumber), firstNumber + secondNumber, "Actual result is not equals expected result");
     }
-
-    @BeforeMethod
-    public void beforeTest(ITestResult itestResult) {
-        System.out.println("Test " + itestResult.getMethod().getMethodName() + " started");
-    }
-
 
     @AfterMethod
     public void afterTest(ITestResult itestResult) {
-        if (itestResult.isSuccess()) {
-            System.out.println("Test passed " + itestResult.getMethod().getMethodName());
-        } else {
-            System.out.println("Test failed " + itestResult.getMethod().getMethodName());
-        }
+        super.afterTest(itestResult);
     }
-
 
 }

@@ -12,7 +12,13 @@ import java.util.Random;
 import static java.lang.Thread.State.TIMED_WAITING;
 import static java.lang.Thread.sleep;
 
-public class TimeoutTest {
+public class TimeoutTest extends CalculatorTest {
+
+    @BeforeMethod
+    public void beforeTestng(ITestResult itestResult) {
+        super.beforeTest(itestResult);
+    }
+
     @Test(groups = "extendedTest", description = "Positive timeout test")
     public void ThreadSleepPositiveTest() {
         class MyThread extends Thread {
@@ -32,17 +38,8 @@ public class TimeoutTest {
         Assert.assertEquals(thread.getState(), TIMED_WAITING, "Timeout method does not put the thread to sleep");
     }
 
-    @BeforeMethod
-    public void beforeTest(ITestResult itestResult) {
-        System.out.println("Test " + itestResult.getMethod().getMethodName() + " started");
-    }
-
     @AfterMethod
     public void afterTest(ITestResult itestResult) {
-        if (itestResult.isSuccess()) {
-            System.out.println("Test passed " + itestResult.getMethod().getMethodName());
-        } else {
-            System.out.println("Test failed " + itestResult.getMethod().getMethodName());
-        }
+        super.afterTest(itestResult);
     }
 }

@@ -15,9 +15,7 @@
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <path>E:\Java Projects\AQAHomeworks\src\main\resources\calculator-1.0.jar</path>
-        <suit>smokeSuite.xml</suit>
-        <suit>criticalPathSuite.xml</suit>
-        <suit>extended.xml</suit>
+        <suit></suit>
 
     </properties>
 
@@ -28,6 +26,12 @@
             <version>1.0</version>
             <systemPath>${path}</systemPath>
             <scope>system</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
