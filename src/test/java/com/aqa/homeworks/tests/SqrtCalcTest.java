@@ -1,4 +1,4 @@
-package com.aqa.homeworks;
+package com.aqa.homeworks.tests;
 
 import com.aqa.homeworks.utils.DataSets;
 import org.apache.commons.math3.analysis.function.Sqrt;

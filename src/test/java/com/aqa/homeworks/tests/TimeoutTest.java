@@ -1,4 +1,4 @@
-package com.aqa.homeworks;
+package com.aqa.homeworks.tests;
 
 import com.epam.tat.module4.Timeout;
 import org.testng.Assert;

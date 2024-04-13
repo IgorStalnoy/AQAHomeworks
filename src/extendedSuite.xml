@@ -11,7 +11,7 @@
             </run>
         </groups>
         <packages>
-            <package name="com.aqa.homeworks"/>
+            <package name="com.aqa.homeworks.tests"/>
         </packages>
     </test>
 </suite>

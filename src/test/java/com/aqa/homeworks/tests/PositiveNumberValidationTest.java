@@ -1,4 +1,4 @@
-package com.aqa.homeworks;
+package com.aqa.homeworks.tests;
 
 import com.aqa.homeworks.utils.DataSets;
 import org.testng.Assert;

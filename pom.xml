@@ -15,7 +15,7 @@
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <path>E:\Java Projects\AQAHomeworks\src\main\resources\calculator-1.0.jar</path>
-        <suit></suit>
+        <suit/>
 
     </properties>
 
@@ -27,13 +27,11 @@
             <systemPath>${path}</systemPath>
             <scope>system</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -48,8 +46,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
+<!--                    <includesFile>com/aqa/homeworks/TestNGRunner.java</includesFile>-->
                     <suiteXmlFiles>
-                        <!-- сюда пишем наши сьюты-->
 <!--                        <suiteXmlFile>src/smokeSuite.xml</suiteXmlFile>-->
 <!--                        <suiteXmlFile>src/criticalPathSuite.xml</suiteXmlFile>-->
 <!--                        <suiteXmlFile>src/extendedSuite.xml</suiteXmlFile>-->
@@ -57,7 +55,37 @@
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <fork>true</fork>
+                    <encoding>iso-8859-1</encoding>
+                    <source>18</source>
+                    <target>18</target>
+                </configuration>
+            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.codehaus.mojo</groupId>-->
+<!--                <artifactId>exec-maven-plugin</artifactId>-->
+<!--                <version>1.5.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>first-execution</id>-->
+<!--                        <phase>test</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>java</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <includePluginDependencies>true</includePluginDependencies>-->
+<!--                            <mainClass>com/aqa/homeworks/Main.java</mainClass>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
+
     </build>
 
 </project>

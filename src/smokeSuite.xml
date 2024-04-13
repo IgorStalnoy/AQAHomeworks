@@ -5,13 +5,16 @@
         <listener class-name="com.aqa.homeworks.utils.TestListener"/>
     </listeners>
     <test name="smoke test">
+<!--        <classes>-->
+<!--            <class name="com.aqa.homeworks.tests.SumCalcTest"/>-->
+<!--        </classes>-->
         <groups>
             <run>
                 <include name="smoke"/>
             </run>
         </groups>
         <packages>
-            <package name="com.aqa.homeworks"/>
+            <package name="com.aqa.homeworks.tests"/>
         </packages>
     </test>
 </suite>
