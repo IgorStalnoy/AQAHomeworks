@@ -5,8 +5,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -15,15 +13,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class OnlinerTest {
-    private final List<WebDriver> webDriver = new ArrayList<>();
+    WebDriver webDriver;
     public final static String CHROME_DRIVER_ROOT = "src/test/resources/chromedriver.exe";
-    public final static String FIREFOX_DRIVER_ROOT = "src/test/resources/geckodriver.exe";
-    public final static String EDGE_DRIVER_ROOT = "src/test/resources/msedgedriver.exe";
     public final static String MAIN_URL = "https://www.onliner.by/";
     public final static String TVS_SECTION_LOCATOR = "//a[@href=\"https://catalog.onliner.by/tv\"]/span[@class=\"project-navigation__text\"]";
     public final static String FILTER_AWAITING_LOADER_LOCATOR = "//div[@class=\"catalog-interaction__state catalog-int" +
@@ -39,15 +33,14 @@ public class OnlinerTest {
     @BeforeClass
     public void driverInit() {
         System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_ROOT);
-        System.setProperty("webdriver.gecko.driver", FIREFOX_DRIVER_ROOT);
-        System.setProperty("webdriver.edge.driver", EDGE_DRIVER_ROOT);
+        this.webDriver = new ChromeDriver();
+        webDriver.manage().window().maximize();
+        webDriver.get(MAIN_URL);
     }
 
     @Test(dataProvider = "filterData", groups = "smoke")
-    public void tvFilterTest(WebDriver webDriver, String filterName) {
-        webDriver.manage().window().maximize();
-        webDriver.get(MAIN_URL);
-        WebDriverWait wait = new WebDriverWait(webDriver, 20);
+    public void tvFilterTest(String filterName) {
+        WebDriverWait wait = new WebDriverWait(webDriver, 5);
         WebElement tvsSection = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(TVS_SECTION_LOCATOR)));
         tvsSection.click();
         WebElement openAllBrandFilters = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(OPEN_ALL_BRAND_FILTERS_LOCATOR)));
@@ -58,41 +51,31 @@ public class OnlinerTest {
         filter.click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(FILTER_AWAITING_LOADER_LOCATOR)));
         List<WebElement> filterResultList = webDriver.findElements(By.xpath(FILTER_RESULT_LOCATOR));
-        Assert.assertFalse(filterResultList.stream()
-                .noneMatch(l -> l.getText().contains(filterName)), "The page displays TVs from a manufacturer other than the applied filter.");
+        Assert.assertTrue(filterResultList.size() > 0, "There are no results on the page after applying the filter");
+        Assert.assertTrue(filterResultList.stream()
+                .allMatch(l -> l.getText().contains(filterName)), "The page displays TVs from a manufacturer other than the applied filter.");
     }
 
-    @DataProvider(name = "filterData", parallel = true)
+    @DataProvider(name = "filterData")
     public Object[][] filterData() {
-        IntStream.range(0, 4)
-                .forEach(i -> webDriver.add(new ChromeDriver()));
-        IntStream.range(4, 8)
-                .forEach(i -> webDriver.add(new FirefoxDriver()));
-        IntStream.range(8, 12)
-                .forEach(i -> webDriver.add(new EdgeDriver()));
         return new Object[][]{
-                {webDriver.get(0), "Renova"},
-                {webDriver.get(1), "Sony"},
-                {webDriver.get(2), "BBK"},
-                {webDriver.get(3), "LG"},
-                {webDriver.get(4), "Sony"},
-                {webDriver.get(5), "BBK"},
-                {webDriver.get(6), "LG"},
-                {webDriver.get(7), "Philips"},
-                {webDriver.get(8), "BBK"},
-                {webDriver.get(9), "LG"},
-                {webDriver.get(10), "Sony"},
-                {webDriver.get(11), "BBK"}
+                {"Renova"},
+                {"Sony"},
+                {"BBK"},
+                {"LG"},
+                {"Sony"},
+                {"BBK"},
+                {"LG"},
+                {"Philips"},
+                {"BBK"},
+                {"LG"},
+                {"Sony"},
+                {"BBK"}
         };
     }
 
     @AfterTest()
     public void cleanUp() {
-        webDriver.forEach(webDriver -> {
-            if (webDriver != null) {
-                webDriver.quit();
-            }
-        });
+        webDriver.quit();
     }
-
 }
