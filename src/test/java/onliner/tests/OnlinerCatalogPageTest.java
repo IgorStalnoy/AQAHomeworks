@@ -14,7 +14,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OnlinerCatalogPageTest extends BaseTest {
@@ -38,16 +37,8 @@ public class OnlinerCatalogPageTest extends BaseTest {
     public void allCatalogPageSectionsDisplayedTest(List<String> sectionsNames) {
         catalogPage.openPage();
         Assert.assertTrue(catalogPage.getCategoriesTopMenu().isDisplayed(), " Catalog page categories top menu isn't displayed");
-        List<WebElement> sections = new ArrayList<>();
-        StringBuilder errorMessage = new StringBuilder();
-        for (String name : sectionsNames) {
-            try {
-                sections.add(WaitUtil.getWebElementAfterFluentWait(catalogPage.getCategoriesTopMenu().getItemLocator(name)));
-            } catch (NoSuchElementException | TimeoutException ex) {
-                errorMessage.append("'").append(name).append("', ");
-            }
-        }
-        Assert.assertEquals(sections.size(), 10, errorMessage + " sections are not found on the page");
+        List<WebElement> sections = catalogPage.getAllTopMenuItemsByName(sectionsNames);
+        Assert.assertEquals(sections.size(), 10, "Not all sections are displayed on the page");
     }
 
     @Test(dataProvider = "computersAndNetworksSideMenuSections")
@@ -59,16 +50,8 @@ public class OnlinerCatalogPageTest extends BaseTest {
         Assert.assertTrue(catalogPage.getCategoriesSideMenu().isDisplayed(),
                 "Catalog page side menu isn't displayed after " +
                         "click on COMPUTERS_AND_NETWORKS button");
-        List<WebElement> sections = new ArrayList<>();
-        StringBuilder errorMessage = new StringBuilder();
-        for (String name : subsectionsNames) {
-            try {
-                sections.add(WaitUtil.getWebElementAfterFluentWait(catalogPage.getCategoriesSideMenu().getItemLocator(name)));
-            } catch (NoSuchElementException | TimeoutException ex) {
-                errorMessage.append("'").append(name).append("', ");
-            }
-        }
-        Assert.assertEquals(sections.size(), 4, errorMessage + " sections are not found on the page");
+        List<WebElement> sections = catalogPage.getAllSideMenuItemsByName(subsectionsNames);
+        Assert.assertEquals(sections.size(), 4, "Not all sections are displayed on the page");
     }
 
     @Test
@@ -82,28 +65,17 @@ public class OnlinerCatalogPageTest extends BaseTest {
         Assert.assertTrue(catalogPage.getCategoriesSideMenu().isItemVisibleOnPage(ComputersAndNetworksSideMenuEnum.COMPONENTS),
                 "COMPONENTS item isn't displayed on the side menu");
         catalogPage.getCategoriesSideMenu().clickOnItem(ComputersAndNetworksSideMenuEnum.COMPONENTS);
-        try {
-            WaitUtil.getWebElementsAfterFluentWait(catalogPage.getCategoriesSideMenu().getAllSubCategoriesLocator());
-        } catch (NoSuchElementException | TimeoutException ex) {
-            Assert.fail("No such subcategory elements were found after click on COMPONENTS button");
-        }
+        Assert.assertTrue(catalogPage.getCategoriesSideMenu().isAnySubcategoryExist(), "No such subcategory " +
+                "elements were found after click on COMPONENTS button");
         SoftAssert softAssert = new SoftAssert();
-        List<WebElement> elementsNames = new ArrayList<>();
-        try {
-            WaitUtil.getWebElementsAfterFluentWait(catalogPage.getCategoriesSideMenu().getAllSubCategoriesContainsNameLocator());
-            elementsNames.addAll(webDriver.findElements(catalogPage.getCategoriesSideMenu().getAllSubCategoriesContainsNameLocator()));
-        } catch (NoSuchElementException | TimeoutException ex) {
-            softAssert.fail("No such subcategory elements with subcategory name were found");
-        }
-        softAssert.assertEquals(elementsNames.size(), 15, "Not all subcategory elements have name");
-        List<WebElement> elementsParams;
-        try {
-            elementsParams = WaitUtil.getWebElementsAfterFluentWait(catalogPage.getCategoriesSideMenu().getAllSubCategoriesContainsCountAndPriceLocator());
-            elementsParams.addAll(webDriver.findElements(catalogPage.getCategoriesSideMenu().getAllSubCategoriesContainsCountAndPriceLocator()));
-        } catch (NoSuchElementException | TimeoutException ex) {
-            softAssert.fail("No such subcategory elements with with price or count were found");
-        }
-        softAssert.assertAll("Not all subcategory elements have price or count");
+        softAssert.assertTrue(catalogPage.getCategoriesSideMenu().getAllSubCategoriesContainsNameList().size() > 0, "No such subcategory" +
+                " elements with subcategory name were found");
+        softAssert.assertEquals(catalogPage.getCategoriesSideMenu().getAllSubCategories().size(), 15, "Not all subcategory elements have name");
+        softAssert.assertTrue(catalogPage.getCategoriesSideMenu().getAllSubCategoriesContainsCountAndPrice().size() > 0,
+                "No such subcategory elements with with price or count were found");
+        softAssert.assertEquals(catalogPage.getCategoriesSideMenu().getAllSubCategoriesContainsCountAndPrice().size(), 15
+                , "Not all subcategory elements have price or count");
+        softAssert.assertAll();
     }
 
     @DataProvider

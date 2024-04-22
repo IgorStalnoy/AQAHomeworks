@@ -3,9 +3,7 @@ package onliner.elements;
 import onliner.elements.enums.CatalogTopMenuEnum;
 import onliner.utils.WaitUtil;
 import onliner.webdriver.Browser;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 public class CatalogPageCategoriesTopMenu {
     int DEFAULT_ELEMENT_WAIT_IN_SECONDS = 10;
