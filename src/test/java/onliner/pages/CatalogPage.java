@@ -2,6 +2,8 @@ package onliner.pages;
 
 import onliner.elements.CatalogCategoriesSideMenu;
 import onliner.elements.CatalogPageCategoriesTopMenu;
+import onliner.elements.enums.CatalogTopMenuEnum;
+import onliner.elements.enums.ComputersAndNetworksSideMenuEnum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -14,12 +16,35 @@ public interface CatalogPage {
 
     boolean isOpened();
 
+    boolean isTopMenuDisplayed();
+
     CatalogPageCategoriesTopMenu getCategoriesTopMenu();
 
     CatalogCategoriesSideMenu getCategoriesSideMenu();
-    public WebElement getTopMenuItemByName(String name);
-    public List<WebElement> getAllTopMenuItemsByName(List<String> sectionsNames);
-    public WebElement getSideMenuItemByName(String name);
 
-    public List<WebElement> getAllSideMenuItemsByName(List<String> sectionsNames);
+    void clickOnTopMenuItem(CatalogTopMenuEnum catalogTopMenuEnum);
+
+    void clickOnSideMenuItem(ComputersAndNetworksSideMenuEnum computersAndNetworksSideMenuEnum);
+
+    boolean isSideMenuDisplayed();
+
+    boolean isAnySideMenuSubcategoryExist();
+
+    List<WebElement> getSideMenuAllSubCategoriesContainsNameList();
+
+    List<WebElement> getSideMenuAllSubCategoriesList();
+    List<WebElement> getSideMenuAllSubCategoriesContainsCountAndPriceList();
+    WebElement getTopMenuItemByName(String name);
+
+    List<WebElement> getAllTopMenuItemsByName(List<String> sectionsNames);
+
+    List<String> getAllTopMenuItems();
+
+    WebElement getSideMenuItemByName(String name);
+
+    List<WebElement> getAllSideMenuItemsByName(List<String> sectionsNames);
+
+    List<String> getAllSideMenuItems();
+
+    boolean isCategoriesSideMenuItemVisibleOnPage(ComputersAndNetworksSideMenuEnum computersAndNetworksSideMenuEnum);
 }

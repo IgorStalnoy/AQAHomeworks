@@ -3,9 +3,10 @@ package onliner.elements;
 import onliner.elements.enums.ComputersAndNetworksSideMenuEnum;
 import onliner.utils.WaitUtil;
 import onliner.webdriver.Browser;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CatalogCategoriesSideMenu {
@@ -13,6 +14,7 @@ public class CatalogCategoriesSideMenu {
     private static final int DEFAULT_ELEMENT_WAIT_IN_SECONDS = 10;
     private static final By CATALOG_SIDE_MENU_LOCATOR = By.xpath("//*[@class='catalog-navigation-list__aside-list']");
     private static final String CATALOG_SIDE_MENU_ITEM_PATTERN = "//*[@class='catalog-navigation-list__aside-list']/*/*[contains(text(),'%s')]";
+    private static final By ALL_CATALOG_SIDE_MENU_ITEMS_LOCATOR = By.xpath("//*[@class='catalog-navigation-list__aside-list']/*/*[contains(text(),'')]");
     private static final By ALL_SUBCATEGORIES_LOCATOR = By.xpath("//*[@class='catalog-navigation-list__dropdown-list']/a");
     private static final By ALL_SUBCATEGORIES_CONTAINS_NAME_LOCATOR = By.xpath("//*[@class='catalog-navigation-list__dropdown-list']" +
             "/a/*/span[contains(@class,'title')][string-length(normalize-space(text()))>0]");
@@ -51,9 +53,11 @@ public class CatalogCategoriesSideMenu {
         List<WebElement> subcategoriesList = WaitUtil.getWebElementsAfterFluentWait(ALL_SUBCATEGORIES_LOCATOR);
         return subcategoriesList.size() > 0;
     }
+
     public List<WebElement> getAllSubCategories() {
         return WaitUtil.getWebElementsAfterFluentWait(ALL_SUBCATEGORIES_CONTAINS_NAME_LOCATOR);
     }
+
     public List<WebElement> getAllSubCategoriesContainsCountAndPrice() {
         return WaitUtil.getWebElementsAfterFluentWait(ALL_SUBCATEGORIES_CONTAINS_PRICE_AND_COUNT_LOCATOR);
     }
@@ -62,5 +66,7 @@ public class CatalogCategoriesSideMenu {
         return WaitUtil.getWebElementsAfterFluentWait(ALL_SUBCATEGORIES_CONTAINS_NAME_LOCATOR);
     }
 
-
+    public List<String> getAllItems() {
+        return WaitUtil.getWebElementsAfterFluentWait(ALL_CATALOG_SIDE_MENU_ITEMS_LOCATOR).stream().map(WebElement::getText).toList();
+    }
 }

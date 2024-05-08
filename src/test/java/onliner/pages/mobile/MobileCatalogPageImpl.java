@@ -2,6 +2,8 @@ package onliner.pages.mobile;
 
 import onliner.elements.CatalogCategoriesSideMenu;
 import onliner.elements.CatalogPageCategoriesTopMenu;
+import onliner.elements.enums.CatalogTopMenuEnum;
+import onliner.elements.enums.ComputersAndNetworksSideMenuEnum;
 import onliner.elements.enums.MainPageTopMenuEnum;
 import onliner.pages.CatalogPage;
 import onliner.utils.WaitUtil;
@@ -65,6 +67,52 @@ public class MobileCatalogPageImpl extends MobileMainPageImpl implements Catalog
         }
         return sections;
     }
+
+    public void clickOnSideMenuItem(ComputersAndNetworksSideMenuEnum computersAndNetworksSideMenuEnum) {
+        categoriesSideMenu.clickOnItem(computersAndNetworksSideMenuEnum);
+    }
+
+    public boolean isAnySideMenuSubcategoryExist() {
+        return categoriesSideMenu.isAnySubcategoryExist();
+    }
+
+    public List<WebElement> getSideMenuAllSubCategoriesContainsCountAndPriceList() {
+        return categoriesSideMenu.getAllSubCategoriesContainsCountAndPrice();
+    }
+
+    public List<WebElement> getSideMenuAllSubCategoriesList() {
+        return categoriesSideMenu.getAllSubCategories();
+    }
+
+
+    public List<WebElement> getSideMenuAllSubCategoriesContainsNameList() {
+        return categoriesSideMenu.getAllSubCategoriesContainsNameList();
+    }
+
+    public boolean isCategoriesSideMenuItemVisibleOnPage(ComputersAndNetworksSideMenuEnum computersAndNetworksSideMenuEnum) {
+        return categoriesSideMenu.isItemVisibleOnPage(computersAndNetworksSideMenuEnum);
+    }
+
+    public List<String> getAllSideMenuItems() {
+        return categoriesSideMenu.getAllItems();
+    }
+
+    public boolean isSideMenuDisplayed() {
+        return getCategoriesSideMenu().isDisplayed();
+    }
+
+    public void clickOnTopMenuItem(CatalogTopMenuEnum catalogTopMenuEnum) {
+        getCategoriesTopMenu().clickOnItem(catalogTopMenuEnum);
+    }
+
+    public List<String> getAllTopMenuItems() {
+        return categoriesTopMenu.getAllItemsList();
+    }
+
+    public boolean isTopMenuDisplayed() {
+        return categoriesTopMenu.isDisplayed();
+    }
+
 
     @Override
     public CatalogPageCategoriesTopMenu getCategoriesTopMenu() {
