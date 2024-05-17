@@ -1,20 +1,23 @@
 package com.aqa.homeworks.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-public class QueriesPropertiesManager {
+@UtilityClass
+public class PropertiesManager {
     private static final String QUERIES_PROPERTIES_PATH = "src/main/resources/queries.properties";
-    private static Properties properties;
-    public static Properties getProperties() {
-        properties = new Properties();
+    private final Properties properties = new Properties();
+
+    public String getQueryProperty(String name) {
         try {
             properties.load(Files.newInputStream(Paths.get(QUERIES_PROPERTIES_PATH)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-        return properties;
+        return properties.getProperty(name);
     }
 }

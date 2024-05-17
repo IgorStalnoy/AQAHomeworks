@@ -12,7 +12,7 @@ public class ExceptionManager {
         try {
             return method.get();
         } catch (Exception e) {
-            return  null;
+            return null;
         }
     }
 
@@ -21,7 +21,7 @@ public class ExceptionManager {
             method.accept(object);
             return true;
         } catch (Exception e) {
-            return  false;
+            return false;
         }
     }
 }

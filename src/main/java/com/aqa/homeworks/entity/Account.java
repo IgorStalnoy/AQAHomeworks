@@ -1,4 +1,4 @@
-package com.aqa.homeworks.buisness;
+package com.aqa.homeworks.entity;
 
 import lombok.Getter;
 
