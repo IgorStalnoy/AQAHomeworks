@@ -11,6 +11,8 @@ import onliner.pages.MainPageImpl;
 import onliner.webdriver.Browser;
 import org.testng.Assert;
 
+import java.util.List;
+
 public class MainMenuStepDefs {
     MainPage mainPage;
 
@@ -48,5 +50,10 @@ public class MainMenuStepDefs {
     @After
     public void browserClose() {
         Browser.close();
+    }
+
+    @And("sub menu with categories appeared")
+    public void subMenuWithCategoriesAppeared(List<String> categories) {
+        categories.forEach(l -> Assert.assertTrue(mainPage.isSubMenuDisplayed(l)));
     }
 }

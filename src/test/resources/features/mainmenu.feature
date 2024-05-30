@@ -13,4 +13,19 @@ Feature: Check submenu elements exist
     Given main page is opened
     When user move mouse to the "Дома и квартиры" menu item
     Then sub menu is opened
-    And all "Дома и квартиры" submenu categories displayed
+    And sub menu with categories appeared
+      | Минск   |
+      | Брест   |
+      | Витебск |
+      | Гомель  |
+      | Гродно  |
+      | Могилев |
+    And sub menu with categories appeared
+      | 1-комнатные  |
+      | 2-комнатные  |
+      | 3-комнатные  |
+      | 4+-комнатные |
+    And sub menu with categories appeared
+      | До 30 000 $     |
+      | 30 000–80 000 $ |
+      | От 80 000 $     |
